@@ -1,13 +1,13 @@
 <div class="container">
   <div class="header">
     <div class="search-bar">
-      <input 
-        type="text" 
-        placeholder="Buscar producto..." 
+      <input
+        type="text"
+        placeholder="Buscar producto..."
         [(ngModel)]="searchTerm"
         (ngModelChange)="onSearch($event)"
         class="search-input"
-      >
+      />
     </div>
     <button class="add-button" (click)="onAddProduct()">Agregar</button>
   </div>
@@ -25,37 +25,52 @@
           <th>Descripción</th>
           <th>Fecha de liberación</th>
           <th>Fecha de reestructuración</th>
+          <th></th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let product of products">
           <td class="logo-cell">
-            <img [src]="product.logo" [alt]="product.name" class="product-logo">
+            <img
+              [src]="product.logo"
+              [alt]="product.name"
+              class="product-logo"
+            />
           </td>
           <td>{{ product.name }}</td>
           <td>{{ product.description }}</td>
-          <td>{{ product.date_release | date: 'dd/MM/yyyy' }}</td>
-          <td>{{ product.date_revision | date: 'dd/MM/yyyy' }}</td>
+          <td>{{ product.date_release | date : "dd/MM/yyyy" }}</td>
+          <td>{{ product.date_revision | date : "dd/MM/yyyy" }}</td>
+          <td class="actions-cell">
+            <div class="menu-container">
+              <button class="menu-button" (click)="toggleMenu(product.id)">
+                <i class="menu-icon">⋮</i>
+              </button>
+              <div class="menu-dropdown" *ngIf="activeMenuId === product.id">
+                <button class="menu-item" (click)="onEdit(product)">
+                  Editar
+                </button>
+              </div>
+            </div>
+          </td>
         </tr>
         <tr *ngIf="products.length === 0">
-          <td colspan="5" class="no-data">No hay productos disponibles</td>
+          <td colspan="6" class="no-data">No hay productos disponibles</td>
         </tr>
       </tbody>
     </table>
 
     <div class="table-footer">
-      <div class="results-info">
-        {{ paginatedData?.total }} Resultados
-      </div>
+      <div class="results-info">{{ paginatedData?.total }} Resultados</div>
       <div class="pagination">
-        <button 
+        <button
           [disabled]="currentPage === 1"
           (click)="onPageChange(currentPage - 1)"
         >
           Previous
         </button>
         <span>Page {{ currentPage }} of {{ paginatedData?.totalPages }}</span>
-        <button 
+        <button
           [disabled]="!paginatedData?.hasNextPage"
           (click)="onPageChange(currentPage + 1)"
         >
@@ -63,16 +78,19 @@
         </button>
       </div>
       <div class="items-per-page">
-        <select [(ngModel)]="pageSize" (ngModelChange)="onPageSizeChange($event)">
-          <option *ngFor="let size of pageSizeOptions" [value]="size">{{ size }}</option>
+        <select
+          [(ngModel)]="pageSize"
+          (ngModelChange)="onPageSizeChange($event)"
+        >
+          <option *ngFor="let size of pageSizeOptions" [value]="size">
+            {{ size }}
+          </option>
         </select>
       </div>
     </div>
   </div>
 
   <ng-template #loading>
-    <div class="loading">
-      Loading products...
-    </div>
+    <div class="loading">Loading products...</div>
   </ng-template>
-</div> 
+</div>

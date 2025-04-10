@@ -6,7 +6,7 @@ import { ProductRepository } from '../repositories/product.repository';
 import { BackendError } from '../errors/backend-error';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ProductService {
   constructor(
@@ -21,11 +21,27 @@ export class ProductService {
     );
   }
 
+  getProductById(id: string): Observable<Product> {
+    return this._productRepository.getProductById(id).pipe(
+      catchError((error: BackendError) => {
+        return throwError(() => error);
+      })
+    );
+  }
+
   createProduct(product: Product): Observable<Product> {
     return this._productRepository.createProduct(product);
+  }
+
+  updateProduct(id: string, product: Product): Observable<Product> {
+    return this._productRepository.updateProduct(id, product).pipe(
+      catchError((error: BackendError) => {
+        return throwError(() => error);
+      })
+    );
   }
 
   verifyProductId(id: string): Observable<boolean> {
     return this._productRepository.verifyProductId(id);
   }
-} 
+}

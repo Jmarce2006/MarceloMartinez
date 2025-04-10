@@ -6,11 +6,12 @@ import { CreateProductComponent } from './pages/create-product/create-product.co
 const routes: Routes = [
   { path: '', redirectTo: '/products', pathMatch: 'full' },
   { path: 'products', component: ProductListComponent },
-  { path: 'products/create', component: CreateProductComponent }
+  { path: 'products/create', component: CreateProductComponent },
+  { path: 'products/edit/:id', component: CreateProductComponent },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}
