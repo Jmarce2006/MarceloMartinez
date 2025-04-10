@@ -124,6 +124,26 @@ export class ProductImplementationRepository implements ProductRepository {
       );
   }
 
+  deleteProduct(id: string): Observable<void> {
+    return this._http.delete<void>(`${this.apiUrl}/${id}`).pipe(
+      catchError((error: HttpErrorResponse) => {
+        if (error.status === 0) {
+          return this._errorHandler.handleError(
+            new BackendError('No se pudo conectar con el servidor. Por favor, intente nuevamente más tarde.')
+          );
+        }
+        if (error.status === 404) {
+          return this._errorHandler.handleError(
+            new BackendError('El producto no fue encontrado.')
+          );
+        }
+        return this._errorHandler.handleError(
+          new BackendError('Ocurrió un error al eliminar el producto.')
+        );
+      })
+    );
+  }
+
   verifyProductId(id: string): Observable<boolean> {
     return this._http.get<boolean>(`${this.apiUrl}/verification/${id}`).pipe(
       catchError((error: HttpErrorResponse) => {

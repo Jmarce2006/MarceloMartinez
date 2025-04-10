@@ -24,7 +24,7 @@
           <th>Nombre del producto</th>
           <th>Descripción</th>
           <th>Fecha de liberación</th>
-          <th>Fecha de reestructuración</th>
+          <th>Fecha de revisión</th>
           <th></th>
         </tr>
       </thead>
@@ -43,13 +43,19 @@
           <td>{{ product.date_revision | date : "dd/MM/yyyy" }}</td>
           <td class="actions-cell">
             <div class="menu-container">
-              <button class="menu-button" (click)="toggleMenu(product.id)">
-                <i class="menu-icon">⋮</i>
+              <button
+                class="menu-button"
+                (click)="toggleMenu(product.id, $event)"
+              >
+                ⋮
               </button>
               <div class="menu-dropdown" *ngIf="activeMenuId === product.id">
-                <button class="menu-item" (click)="onEdit(product)">
-                  Editar
-                </button>
+                <div class="menu-item" (click)="onEdit(product)">
+                  <span>Editar</span>
+                </div>
+                <div class="menu-item delete" (click)="onDelete(product)">
+                  <span>Eliminar</span>
+                </div>
               </div>
             </div>
           </td>
@@ -67,14 +73,14 @@
           [disabled]="currentPage === 1"
           (click)="onPageChange(currentPage - 1)"
         >
-          Previous
+          Anterior    
         </button>
-        <span>Page {{ currentPage }} of {{ paginatedData?.totalPages }}</span>
+        <span>Página {{ currentPage }} de {{ paginatedData?.totalPages }}</span>
         <button
           [disabled]="!paginatedData?.hasNextPage"
           (click)="onPageChange(currentPage + 1)"
         >
-          Next
+          Siguiente
         </button>
       </div>
       <div class="items-per-page">
@@ -91,6 +97,13 @@
   </div>
 
   <ng-template #loading>
-    <div class="loading">Loading products...</div>
+    <div class="loading">Cargando productos...</div>
   </ng-template>
 </div>
+
+<app-confirmation-modal
+  [isOpen]="showDeleteModal"
+  [title]="getDeleteConfirmationTitle()"
+  (confirmEvent)="onConfirmDelete()"
+  (cancelEvent)="onCancelDelete()"
+></app-confirmation-modal>

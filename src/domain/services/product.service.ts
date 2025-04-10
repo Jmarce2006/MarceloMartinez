@@ -41,6 +41,10 @@ export class ProductService {
     );
   }
 
+  deleteProduct(id: string): Observable<void> {
+    return this._productRepository.deleteProduct(id);
+  }
+
   verifyProductId(id: string): Observable<boolean> {
     return this._productRepository.verifyProductId(id);
   }

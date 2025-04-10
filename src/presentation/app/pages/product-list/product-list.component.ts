@@ -10,13 +10,14 @@ import {
 } from '../../../../domain/services/product-pagination.service';
 import { finalize } from 'rxjs/operators';
 import { BackendError } from '../../../../domain/errors/backend-error';
+import { ConfirmationModalComponent } from '../../components/confirmation-modal/confirmation-modal.component';
 
 @Component({
   selector: 'app-product-list',
   templateUrl: './product-list.component.html',
   styleUrls: ['./product-list.component.scss'],
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, ConfirmationModalComponent],
 })
 export class ProductListComponent implements OnInit {
   products: Product[] = [];
@@ -29,12 +30,18 @@ export class ProductListComponent implements OnInit {
   paginatedData: PaginatedResult<Product> | null = null;
   errorMessage: string | null = null;
   activeMenuId: string | null = null;
+  showDeleteModal = false;
+  productToDelete: Product | null = null;
 
   constructor(
     private _productService: ProductService,
     private _paginationService: ProductPaginationService,
     private _router: Router
   ) {}
+
+  getDeleteConfirmationTitle(): string {
+    return `¿Estas seguro de eliminar el producto ${this.productToDelete?.name || ''}?`;
+  }
 
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: MouseEvent): void {
@@ -97,7 +104,8 @@ export class ProductListComponent implements OnInit {
     this.updatePaginatedData();
   }
 
-  toggleMenu(productId: string): void {
+  toggleMenu(productId: string, event: Event): void {
+    event.stopPropagation();
     this.activeMenuId = this.activeMenuId === productId ? null : productId;
   }
 
@@ -108,5 +116,33 @@ export class ProductListComponent implements OnInit {
 
   onAddProduct(): void {
     this._router.navigate(['/products/create']);
+  }
+
+  onDelete(product: Product): void {
+    this.productToDelete = product;
+    this.showDeleteModal = true;
+    this.activeMenuId = null;
+  }
+
+  onConfirmDelete(): void {
+    if (this.productToDelete) {
+      this.isLoading = true;
+      this._productService.deleteProduct(this.productToDelete.id).subscribe({
+        next: () => {
+          this.loadProducts();
+          this.showDeleteModal = false;
+          this.productToDelete = null;
+        },
+        error: (error: BackendError) => {
+          this.errorMessage = error.message;
+          this.isLoading = false;
+        }
+      });
+    }
+  }
+
+  onCancelDelete(): void {
+    this.showDeleteModal = false;
+    this.productToDelete = null;
   }
 }
