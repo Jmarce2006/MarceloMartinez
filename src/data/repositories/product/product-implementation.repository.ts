@@ -37,4 +37,36 @@ export class ProductImplementationRepository implements ProductRepository {
       })
     );
   }
+
+  createProduct(product: Product): Observable<Product> {
+    const productEntity = this._mapper.mapTo(product);
+    return this._http.post<ProductEntity>(this.apiUrl, productEntity).pipe(
+      map(response => this._mapper.mapFrom(response)),
+      catchError((error: HttpErrorResponse) => {
+        if (error.status === 0) {
+          return this._errorHandler.handleError(
+            new BackendError('No se pudo conectar con el servidor. Por favor, intente nuevamente más tarde.')
+          );
+        }
+        if (error.status === 400) {
+          return this._errorHandler.handleError(
+            new BackendError(error.error.message || 'Los datos del producto son inválidos.')
+          );
+        }
+        return this._errorHandler.handleError(
+          new BackendError('Ocurrió un error al crear el producto.')
+        );
+      })
+    );
+  }
+
+  verifyProductId(id: string): Observable<boolean> {
+    return this._http.get<boolean>(`${this.apiUrl}/verification/${id}`).pipe(
+      catchError((error: HttpErrorResponse) => {
+        return this._errorHandler.handleError(
+          new BackendError('Ocurrió un error al verificar el ID del producto.')
+        );
+      })
+    );
+  }
 } 

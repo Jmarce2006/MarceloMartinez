@@ -6,6 +6,7 @@ import { ProductService } from '../../../../domain/services/product.service';
 import { ProductPaginationService, PaginatedResult } from '../../../../domain/services/product-pagination.service';
 import { finalize } from 'rxjs/operators';
 import { BackendError } from '../../../../domain/errors/backend-error';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-product-list',
@@ -27,7 +28,8 @@ export class ProductListComponent implements OnInit {
 
   constructor(
     private _productService: ProductService,
-    private _paginationService: ProductPaginationService
+    private _paginationService: ProductPaginationService,
+    private _router: Router
   ) {}
 
   ngOnInit(): void {
@@ -79,5 +81,9 @@ export class ProductListComponent implements OnInit {
     this.pageSize = Number(size);
     this.currentPage = 1;
     this.updatePaginatedData();
+  }
+
+  onAddProduct(): void {
+    this._router.navigate(['/products/create']);
   }
 }

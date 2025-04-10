@@ -20,4 +20,12 @@ export class ProductService {
       })
     );
   }
+
+  createProduct(product: Product): Observable<Product> {
+    return this._productRepository.createProduct(product);
+  }
+
+  verifyProductId(id: string): Observable<boolean> {
+    return this._productRepository.verifyProductId(id);
+  }
 } 
