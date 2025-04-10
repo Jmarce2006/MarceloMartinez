@@ -1,0 +1,40 @@
+.app-header {
+  background-color: white;
+  padding: 1rem 2rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+
+  .logo-container {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    max-width: 1200px;
+    margin: 0 auto;
+
+    .logo-icon {
+      font-size: 1.5rem;
+      color: #1a237e;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 1.5rem;
+      color: #1a237e;
+      font-weight: 600;
+    }
+  }
+}
+
+.app-content {
+  min-height: calc(100vh - 80px);
+  padding: 2rem;
+  background-color: #f8f9fa;
+}
+
+.app-footer {
+  background-color: #f5f5f5;
+  padding: 1rem;
+  text-align: center;
+  color: #666;
+  font-size: 0.9rem;
+  border-top: 1px solid #e0e0e0;
+}
