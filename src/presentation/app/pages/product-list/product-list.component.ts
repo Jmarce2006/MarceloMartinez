@@ -5,6 +5,7 @@ import { Product } from '../../../../domain/models/product.model';
 import { ProductService } from '../../../../domain/services/product.service';
 import { ProductPaginationService, PaginatedResult } from '../../../../domain/services/product-pagination.service';
 import { finalize } from 'rxjs/operators';
+import { BackendError } from '../../../../domain/errors/backend-error';
 
 @Component({
   selector: 'app-product-list',
@@ -22,6 +23,7 @@ export class ProductListComponent implements OnInit {
   pageSizeOptions = [5, 10, 20];
   searchTerm = '';
   paginatedData: PaginatedResult<Product> | null = null;
+  errorMessage: string | null = null;
 
   constructor(
     private _productService: ProductService,
@@ -34,6 +36,7 @@ export class ProductListComponent implements OnInit {
 
   loadProducts(): void {
     this.isLoading = true;
+    this.errorMessage = null;
     this._productService.getProducts().pipe(
       finalize(() => this.isLoading = false)
     ).subscribe({
@@ -41,7 +44,11 @@ export class ProductListComponent implements OnInit {
         this.allProducts = products;
         this.updatePaginatedData();
       },
-      error: (error) => console.error('Error loading products:', error)
+      error: (error: BackendError) => {
+        this.errorMessage = error.message;
+        this.allProducts = [];
+        this.updatePaginatedData();
+      }
     });
   }
 

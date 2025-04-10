@@ -1,7 +1,9 @@
 import { Injectable, Inject } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { Product } from '../models/product.model';
 import { ProductRepository } from '../repositories/product.repository';
+import { BackendError } from '../errors/backend-error';
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +14,10 @@ export class ProductService {
   ) {}
 
   getProducts(): Observable<Product[]> {
-    return this._productRepository.getProducts();
+    return this._productRepository.getProducts().pipe(
+      catchError((error: BackendError) => {
+        return throwError(() => error);
+      })
+    );
   }
 } 

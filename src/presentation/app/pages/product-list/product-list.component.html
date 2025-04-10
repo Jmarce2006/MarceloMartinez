@@ -2,11 +2,15 @@
   <div class="search-bar">
     <input 
       type="text" 
-      placeholder="Search products..." 
+      placeholder="Buscar producto..." 
       [(ngModel)]="searchTerm"
       (ngModelChange)="onSearch($event)"
       class="search-input"
     >
+  </div>
+
+  <div *ngIf="errorMessage" class="error-message">
+    {{ errorMessage }}
   </div>
 
   <div class="table-container" *ngIf="!isLoading; else loading">
@@ -27,8 +31,11 @@
           </td>
           <td>{{ product.name }}</td>
           <td>{{ product.description }}</td>
-          <td>{{ product.date_release | date }}</td>
-          <td>{{ product.date_revision | date }}</td>
+          <td>{{ product.date_release | date: 'dd/MM/yyyy' }}</td>
+          <td>{{ product.date_revision | date: 'dd/MM/yyyy' }}</td>
+        </tr>
+        <tr *ngIf="products.length === 0">
+          <td colspan="5" class="no-data">No hay productos disponibles</td>
         </tr>
       </tbody>
     </table>
