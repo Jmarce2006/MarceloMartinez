@@ -1,0 +1,126 @@
+@import "../base/variables";
+@import "../base/mixins";
+
+.footer {
+  background-color: $text-dark;
+  color: #fff;
+  padding: $spacing-xl 0;
+
+  &-container {
+    @include grid(4, $spacing-lg);
+
+    @include respond-to("md") {
+      @include grid(2, $spacing-md);
+    }
+
+    @include respond-to("sm") {
+      @include grid(1, $spacing-md);
+    }
+  }
+
+  &-section {
+    &-title {
+      font-size: 1.25rem;
+      font-weight: $font-weight-semibold;
+      margin-bottom: $spacing-md;
+      color: $primary-yellow;
+    }
+
+    &-list {
+      @include flex(column);
+      gap: $spacing-sm;
+
+      &-item {
+        a {
+          color: #fff;
+          transition: color $transition-fast;
+
+          &:hover {
+            color: $primary-yellow;
+          }
+        }
+      }
+    }
+  }
+
+  &-social {
+    @include flex;
+    gap: $spacing-md;
+    margin-top: $spacing-md;
+
+    &-link {
+      color: #fff;
+      transition: color $transition-fast;
+
+      &:hover {
+        color: $primary-yellow;
+      }
+
+      .icon {
+        width: 24px;
+        height: 24px;
+      }
+    }
+  }
+
+  &-bottom {
+    margin-top: $spacing-xl;
+    padding-top: $spacing-md;
+    border-top: 1px solid rgba(#fff, 0.1);
+    text-align: center;
+
+    &-text {
+      color: rgba(#fff, 0.7);
+      font-size: 0.875rem;
+    }
+  }
+
+  // Contact Info
+  &-contact {
+    &-item {
+      @include flex;
+      gap: $spacing-sm;
+      margin-bottom: $spacing-sm;
+
+      .icon {
+        width: 20px;
+        height: 20px;
+        color: $primary-yellow;
+      }
+    }
+  }
+
+  // Newsletter
+  &-newsletter {
+    &-form {
+      @include flex;
+      gap: $spacing-sm;
+      margin-top: $spacing-md;
+
+      input {
+        flex: 1;
+        padding: $spacing-sm;
+        border: none;
+        border-radius: $border-radius-md;
+
+        &:focus {
+          outline: none;
+        }
+      }
+    }
+  }
+
+  // App Footer Styles
+  &-app {
+    background-color: #f5f5f5;
+    padding: $spacing-md;
+    text-align: center;
+    color: #666;
+    font-size: 0.9rem;
+    border-top: 1px solid #e0e0e0;
+    margin-top: auto;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+  }
+}

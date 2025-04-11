@@ -1,19 +1,20 @@
-<div class="container">
-  <div class="form-container">
-    <h1>Formulario de Registro</h1>
+<div class="product-form__container">
+  <div class="product-form__form-container">
+    <form [formGroup]="productForm" (ngSubmit)="onSubmit()" class="form">
+      <h1>Formulario de Registro</h1>
 
-    <form [formGroup]="productForm" (ngSubmit)="onSubmit()">
-      <div class="form-row">
+      <div class="product-form__row">
         <div class="form-group">
-          <label for="id">ID</label>
+          <label class="form-label" for="id">ID</label>
           <input
+            class="form-control"
             type="text"
             id="id"
             formControlName="id"
-            [class.error]="(productForm.get('id')?.invalid && productForm.get('id')?.touched) || productForm.get('id')?.errors?.['idExists']"
+            [class.is-invalid]="(productForm.get('id')?.invalid && productForm.get('id')?.touched) || productForm.get('id')?.errors?.['idExists']"
           />
           <div
-            class="error-message"
+            class="product-form__error"
             *ngIf="(productForm.get('id')?.invalid && productForm.get('id')?.touched) || productForm.get('id')?.errors?.['idExists']"
           >
             <span *ngIf="productForm.get('id')?.errors?.['required']"
@@ -35,19 +36,19 @@
         </div>
 
         <div class="form-group">
-          <label for="name">Nombre</label>
+          <label class="form-label" for="name">Nombre</label>
           <input
+            class="form-control"
             type="text"
             id="name"
             formControlName="name"
-            placeholder="Tarjeta Crédito"
-            [class.error]="
+            [class.is-invalid]="
               productForm.get('name')?.invalid &&
               productForm.get('name')?.touched
             "
           />
           <div
-            class="error-message"
+            class="product-form__error"
             *ngIf="
               productForm.get('name')?.invalid &&
               productForm.get('name')?.touched
@@ -66,20 +67,21 @@
         </div>
       </div>
 
-      <div class="form-row">
+      <div class="product-form__row">
         <div class="form-group">
-          <label for="description">Descripción</label>
+          <label class="form-label" for="description">Descripción</label>
           <input
+            class="form-control"
             type="text"
             id="description"
             formControlName="description"
-            [class.error]="
+            [class.is-invalid]="
               productForm.get('description')?.invalid &&
               productForm.get('description')?.touched
             "
           />
           <div
-            class="error-message"
+            class="product-form__error"
             *ngIf="
               productForm.get('description')?.invalid &&
               productForm.get('description')?.touched
@@ -98,18 +100,19 @@
         </div>
 
         <div class="form-group">
-          <label for="logo">Logo</label>
+          <label class="form-label" for="logo">Logo</label>
           <input
+            class="form-control"
             type="text"
             id="logo"
             formControlName="logo"
-            [class.error]="
+            [class.is-invalid]="
               productForm.get('logo')?.invalid &&
               productForm.get('logo')?.touched
             "
           />
           <div
-            class="error-message"
+            class="product-form__error"
             *ngIf="
               productForm.get('logo')?.invalid &&
               productForm.get('logo')?.touched
@@ -122,21 +125,22 @@
         </div>
       </div>
 
-      <div class="form-row">
+      <div class="product-form__row">
         <div class="form-group">
-          <label for="date_release">Fecha Liberación</label>
+          <label class="form-label" for="date_release">Fecha Liberación</label>
           <input
+            class="form-control"
             type="date"
             id="date_release"
             formControlName="date_release"
             [min]="today"
-            [class.error]="
+            [class.is-invalid]="
               productForm.get('date_release')?.invalid &&
               productForm.get('date_release')?.touched
             "
           />
           <div
-            class="error-message"
+            class="product-form__error"
             *ngIf="
               productForm.get('date_release')?.invalid &&
               productForm.get('date_release')?.touched
@@ -152,8 +156,9 @@
         </div>
 
         <div class="form-group">
-          <label for="date_revision">Fecha Revisión</label>
+          <label class="form-label" for="date_revision">Fecha Revisión</label>
           <input
+            class="form-control"
             type="date"
             id="date_revision"
             formControlName="date_revision"
@@ -162,11 +167,11 @@
         </div>
       </div>
 
-      <div class="error-message global-error" *ngIf="errorMessage">
+      <div class="product-form__global-error" *ngIf="errorMessage">
         {{ errorMessage }}
       </div>
 
-      <div class="form-actions">
+      <div class="product-form__actions">
         <button type="button" class="btn-secondary" (click)="onReset()">
           Reiniciar
         </button>

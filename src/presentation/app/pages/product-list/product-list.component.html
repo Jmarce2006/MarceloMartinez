@@ -6,77 +6,79 @@
         placeholder="Buscar producto..."
         [(ngModel)]="searchTerm"
         (ngModelChange)="onSearch($event)"
-        class="search-input"
+        class="search-bar-input"
       />
     </div>
-    <button class="add-button btn-primary" (click)="onAddProduct()">Agregar</button>
+    <button class="btn-primary" (click)="onAddProduct()">Agregar</button>
   </div>
 
   <div *ngIf="errorMessage" class="error-message">
     {{ errorMessage }}
   </div>
 
-  <div class="table-container" *ngIf="!isLoading; else loading">
-    <table class="products-table">
-      <thead>
-        <tr>
-          <th>Logo</th>
-          <th>Nombre del producto</th>
-          <th>Descripción</th>
-          <th>Fecha de liberación</th>
-          <th>Fecha de revisión</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let product of products">
-          <td class="logo-cell">
-            <img
-              [src]="product.logo"
-              [alt]="product.name"
-              class="product-logo"
-              (error)="handleImageError($event)"
-            />
-            <div class="logo-fallback"></div>
-          </td>
-          <td>{{ product.name }}</td>
-          <td>{{ product.description }}</td>
-          <td>{{ product.date_release | date:'yyyy-MM-dd':'UTC' }}</td>
-          <td>{{ product.date_revision | date:'yyyy-MM-dd':'UTC' }}</td>
-          <td class="actions-cell">
-            <div class="menu-container">
-              <button
-                class="menu-button"
-                (click)="toggleMenu(product.id, $event)"
-              >
-                ⋮
-              </button>
-              <div class="menu-dropdown" *ngIf="activeMenuId === product.id">
-                <div class="menu-item" (click)="onEdit(product)">
-                  <span>Editar</span>
-                </div>
-                <div class="menu-item delete" (click)="onDelete(product)">
-                  <span>Eliminar</span>
+  <div class="table" *ngIf="!isLoading; else loading">
+    <div class="table-container">
+      <table class="table-wrapper">
+        <thead>
+          <tr>
+            <th>Logo</th>
+            <th>Nombre del producto</th>
+            <th>Descripción</th>
+            <th>Fecha de liberación</th>
+            <th>Fecha de revisión</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let product of products">
+            <td class="table-logo-cell">
+              <img
+                [src]="product.logo"
+                [alt]="product.name"
+                class="table-logo-cell-img"
+                (error)="handleImageError($event)"
+              />
+              <div class="table-logo-cell-fallback"></div>
+            </td>
+            <td>{{ product.name }}</td>
+            <td>{{ product.description }}</td>
+            <td>{{ product.date_release | date : "yyyy-MM-dd" : "UTC" }}</td>
+            <td>{{ product.date_revision | date : "yyyy-MM-dd" : "UTC" }}</td>
+            <td class="table-actions-cell">
+              <div class="menu-container">
+                <button
+                  class="menu-button"
+                  (click)="toggleMenu(product.id, $event)"
+                >
+                  ⋮
+                </button>
+                <div class="menu-dropdown" *ngIf="activeMenuId === product.id">
+                  <div class="menu-item" (click)="onEdit(product)">
+                    <span>Editar</span>
+                  </div>
+                  <div class="menu-item delete" (click)="onDelete(product)">
+                    <span>Eliminar</span>
+                  </div>
                 </div>
               </div>
-            </div>
-          </td>
-        </tr>
-        <tr *ngIf="products.length === 0">
-          <td colspan="6" class="no-data">No hay productos disponibles</td>
-        </tr>
-      </tbody>
-    </table>
+            </td>
+          </tr>
+          <tr *ngIf="products.length === 0">
+            <td colspan="6" class="no-data">No hay productos disponibles</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
 
     <div class="table-footer">
-      <div class="results-info">{{ paginatedData?.total }} Resultados</div>
-      <div class="pagination">
+      <div class="table-footer-info">{{ paginatedData?.total }} Resultados</div>
+      <div class="table-footer-pagination">
         <button
           [disabled]="currentPage === 1"
           (click)="onPageChange(currentPage - 1)"
           class="btn-secondary"
         >
-          Anterior    
+          Anterior
         </button>
         <span>Página {{ currentPage }} de {{ paginatedData?.totalPages }}</span>
         <button
@@ -87,7 +89,7 @@
           Siguiente
         </button>
       </div>
-      <div class="items-per-page">
+      <div class="table-footer-items-per-page">
         <select
           [(ngModel)]="pageSize"
           (ngModelChange)="onPageSizeChange($event)"

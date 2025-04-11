@@ -1,0 +1,51 @@
+.menu {
+  &-container {
+    position: relative;
+    display: inline-block;
+  }
+
+  &-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.25rem;
+    padding: $spacing-xs $spacing-sm;
+    color: $text-dark;
+  }
+
+  &-dropdown {
+    position: absolute;
+    right: 0;
+    top: 100%;
+    background: white;
+    border-radius: $border-radius-md;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    min-width: 120px;
+    z-index: 1000;
+  }
+
+  &-item {
+    padding: $spacing-sm $spacing-md;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background-color $transition-fast;
+    display: block;
+    text-align: left;
+    width: 100%;
+    background: none;
+    border: none;
+    font-size: 0.875rem;
+
+    &:hover {
+      background-color: #f5f5f5;
+    }
+
+    &.delete {
+      color: $danger-red;
+
+      &:hover {
+        background-color: #ffebee;
+      }
+    }
+  }
+}

@@ -1,0 +1,33 @@
+@import "../base/variables";
+@import "../base/mixins";
+
+.app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  position: relative;
+
+  &-content {
+    flex: 1;
+    padding: $spacing-xl;
+    background-color: #f8f9fa;
+    min-height: calc(100vh - 120px); // Adjust based on header and footer height
+  }
+
+  &-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 $spacing-md;
+  }
+
+  &-section {
+    margin-bottom: $spacing-xl;
+
+    &-title {
+      font-size: 1.5rem;
+      font-weight: $font-weight-semibold;
+      margin-bottom: $spacing-md;
+      color: $text-dark;
+    }
+  }
+}

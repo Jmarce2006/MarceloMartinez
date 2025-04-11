@@ -1,0 +1,114 @@
+@import "../base/variables";
+@import "../base/mixins";
+
+.form {
+  &-group {
+    margin-bottom: $spacing-md;
+  }
+
+  &-label {
+    display: block;
+    margin-bottom: $spacing-xs;
+    font-weight: $font-weight-medium;
+    color: $text-dark;
+  }
+
+  &-control {
+    width: 100%;
+    padding: $spacing-sm;
+    border: 1px solid $secondary-gray;
+    border-radius: $border-radius-md;
+    font-size: 1rem;
+    transition: border-color $transition-fast;
+
+    &:focus {
+      outline: none;
+      border-color: $primary-yellow;
+      box-shadow: 0 0 0 2px rgba($primary-yellow, 0.2);
+    }
+
+    &::placeholder {
+      color: $text-gray;
+    }
+
+    &:disabled {
+      background-color: $secondary-gray;
+      cursor: not-allowed;
+    }
+  }
+
+  &-text {
+    display: block;
+    margin-top: $spacing-xs;
+    font-size: 0.875rem;
+    color: $text-gray;
+  }
+
+  &-error {
+    color: $danger-red;
+    font-size: 0.875rem;
+    margin-top: $spacing-xs;
+  }
+
+  // Form Sizes
+  &-sm {
+    .form-control {
+      padding: $spacing-xs;
+      font-size: 0.875rem;
+    }
+  }
+
+  &-lg {
+    .form-control {
+      padding: $spacing-md;
+      font-size: 1.125rem;
+    }
+  }
+
+  // Form States
+  &.is-invalid {
+    .form-control {
+      border-color: $danger-red;
+
+      &:focus {
+        box-shadow: 0 0 0 2px rgba($danger-red, 0.2);
+      }
+    }
+  }
+
+  &.is-valid {
+    .form-control {
+      border-color: #28a745;
+
+      &:focus {
+        box-shadow: 0 0 0 2px rgba(#28a745, 0.2);
+      }
+    }
+  }
+
+  // Form Layout
+  &-inline {
+    @include flex-between;
+
+    .form-group {
+      margin-bottom: 0;
+      margin-right: $spacing-md;
+    }
+  }
+
+  &-horizontal {
+    .form-group {
+      @include flex;
+
+      .form-label {
+        width: 200px;
+        margin-bottom: 0;
+        padding-right: $spacing-md;
+      }
+
+      .form-control {
+        flex: 1;
+      }
+    }
+  }
+}

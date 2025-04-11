@@ -1,0 +1,60 @@
+@import "../base/variables";
+@import "../base/mixins";
+
+.card {
+  @include card;
+
+  &-header {
+    padding-bottom: $spacing-md;
+    border-bottom: 1px solid $secondary-gray;
+    margin-bottom: $spacing-md;
+  }
+
+  &-body {
+    padding: $spacing-md 0;
+  }
+
+  &-footer {
+    padding-top: $spacing-md;
+    border-top: 1px solid $secondary-gray;
+    margin-top: $spacing-md;
+  }
+
+  &-title {
+    font-size: 1.25rem;
+    font-weight: $font-weight-semibold;
+    margin-bottom: $spacing-sm;
+  }
+
+  &-subtitle {
+    font-size: 1rem;
+    color: $text-gray;
+    margin-bottom: $spacing-md;
+  }
+
+  // Card Variants
+  &-primary {
+    border: 1px solid $primary-yellow;
+  }
+
+  &-secondary {
+    border: 1px solid $secondary-gray;
+  }
+
+  // Card Sizes
+  &-sm {
+    padding: $spacing-sm;
+  }
+
+  &-lg {
+    padding: $spacing-lg;
+  }
+
+  // Card with Image
+  &-img {
+    width: 100%;
+    height: auto;
+    margin-bottom: $spacing-md;
+    border-radius: $border-radius-md;
+  }
+}

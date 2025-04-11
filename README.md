@@ -1,27 +1,64 @@
-# DevsuFrontend
+# Product Catalog Frontend
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.
+This project is a product catalog application built with Angular 16, implementing a clean architecture approach. It provides a modern, responsive interface for browsing and managing product catalogs.
 
-## Development server
+## Architecture
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+The application follows a layered architecture pattern:
 
-## Code scaffolding
+- **Presentation Layer**: Contains all UI components and styles
+  - Components and pages
+  - Global styles and assets
+  - Angular routing and navigation
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+- **Domain Layer**: Contains business logic and domain models
+  - Models and interfaces
+  - Services and use cases
+  - Repositories interfaces
+  - Error handling
+  - Business rules and validations
 
-## Build
+- **Data Layer**: Handles data operations and implementations
+  - Repository implementations
+  - Data module configuration
+  - API integrations
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+- **Base Layer**: Contains core abstractions and utilities
+  - Base use case abstraction
+  - Mapper utilities
+  - Common interfaces
 
-## Running unit tests
+## Prerequisites
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+- Node.js (v18.20 or higher)
+- Angular CLI v16
 
-## Running end-to-end tests
+## Installation
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+1. Clone the repository:
+```bash
+git clone https://github.com/Jmarce2006/MarceloMartinez.git
+cd devsu-frontend
+```
 
-## Further help
+2. Install dependencies:
+```bash
+npm install
+```
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+## Development Server
+
+Run the development server:
+```bash
+ng serve
+```
+
+Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+
+
+## Running Tests
+
+Run unit tests:
+```bash
+ng test
+```

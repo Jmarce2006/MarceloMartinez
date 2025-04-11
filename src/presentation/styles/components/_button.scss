@@ -1,0 +1,89 @@
+@import "../base/variables";
+
+// Button Base Styles
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: $spacing-sm $spacing-md;
+  border-radius: $border-radius-md;
+  font-weight: $font-weight-semibold;
+  cursor: pointer;
+  transition: background-color $transition-fast, color $transition-fast;
+
+  &:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
+}
+
+// Button Variants
+.btn-primary {
+  padding: 8px 24px;
+  background-color: #ffd600;
+  border: none;
+  border-radius: 4px;
+  color: #000;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+
+  &:hover {
+    background-color: #ffc400;
+  }
+}
+
+.btn-secondary {
+  padding: 6px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background: white;
+  cursor: pointer;
+  color: #666;
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  &:not(:disabled):hover {
+    background: #f0f0f0;
+  }
+}
+
+.btn-danger {
+  background-color: var(--danger-red);
+  color: #fff;
+
+  &:hover:not(:disabled) {
+    background-color: var(--danger-red-hover);
+  }
+}
+
+// Button Sizes
+.btn-sm {
+  padding: $spacing-xs $spacing-sm;
+  font-size: 0.875rem;
+}
+
+.btn-md {
+  padding: $spacing-sm $spacing-md;
+  font-size: 1rem;
+}
+
+.btn-lg {
+  padding: $spacing-md $spacing-lg;
+  font-size: 1.125rem;
+}
+
+// Button with Icon
+.btn-icon {
+  display: inline-flex;
+  align-items: center;
+  gap: $spacing-xs;
+
+  .icon {
+    width: 1em;
+    height: 1em;
+  }
+}

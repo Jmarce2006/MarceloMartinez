@@ -26,7 +26,7 @@ describe('AppComponent', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.nativeElement;
-    expect(compiled.querySelector('.logo-container h1').textContent)
+    expect(compiled.querySelector('.header-app-logo-text').textContent)
       .toContain('BANCO');
   });
 });

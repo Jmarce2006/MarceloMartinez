@@ -1,0 +1,147 @@
+@import "../base/variables";
+@import "../base/mixins";
+
+.header {
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+
+  &-container {
+    @include flex-between;
+    height: 64px;
+    padding: 0 $spacing-md;
+  }
+
+  &-logo {
+    height: 40px;
+    width: auto;
+  }
+
+  &-nav {
+    @include flex;
+    gap: $spacing-md;
+
+    &-link {
+      color: $text-dark;
+      font-weight: $font-weight-medium;
+      padding: $spacing-sm;
+      transition: color $transition-fast;
+
+      &:hover {
+        color: $primary-yellow;
+      }
+
+      &.active {
+        color: $primary-yellow;
+        position: relative;
+
+        &::after {
+          content: "";
+          position: absolute;
+          bottom: 0;
+          left: $spacing-sm;
+          right: $spacing-sm;
+          height: 2px;
+          background-color: $primary-yellow;
+        }
+      }
+    }
+  }
+
+  &-actions {
+    @include flex;
+    gap: $spacing-sm;
+  }
+
+  // App Header Styles
+  &-app {
+    background-color: white;
+    padding: $spacing-md $spacing-xl;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+
+    &-logo {
+      @include flex-center;
+      gap: $spacing-sm;
+      max-width: 1200px;
+      margin: 0 auto;
+
+      &-icon {
+        font-size: 1.5rem;
+        color: #1a237e;
+      }
+
+      &-text {
+        margin: 0;
+        font-size: 1.5rem;
+        color: #1a237e;
+        font-weight: $font-weight-semibold;
+      }
+    }
+  }
+
+  // Mobile Menu
+  &-mobile {
+    display: none;
+
+    &-toggle {
+      display: none;
+      background: none;
+      border: none;
+      padding: $spacing-sm;
+      cursor: pointer;
+
+      .icon {
+        width: 24px;
+        height: 24px;
+      }
+    }
+  }
+
+  // Responsive Styles
+  @include respond-to("md") {
+    &-mobile {
+      &-toggle {
+        display: block;
+      }
+
+      &-menu {
+        position: fixed;
+        top: 64px;
+        left: 0;
+        right: 0;
+        background-color: #fff;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        padding: $spacing-md;
+        transform: translateY(-100%);
+        opacity: 0;
+        transition: transform $transition-normal, opacity $transition-normal;
+
+        &.open {
+          transform: translateY(0);
+          opacity: 1;
+        }
+
+        .header-nav {
+          flex-direction: column;
+          gap: $spacing-sm;
+
+          &-link {
+            display: block;
+            padding: $spacing-sm 0;
+
+            &.active::after {
+              left: 0;
+              right: 0;
+            }
+          }
+        }
+      }
+    }
+
+    &-nav {
+      display: none;
+    }
+  }
+}

@@ -1,0 +1,96 @@
+// Typography Styles
+@import "variables";
+
+// Font Families
+$font-family-base: sans-serif;
+$font-family-heading: sans-serif;
+
+// Base Typography
+body {
+  font-family: $font-family-base;
+  font-size: 16px;
+  line-height: 1.5;
+  color: $text-dark;
+}
+
+// Headings
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: $font-family-heading;
+  font-weight: $font-weight-bold;
+  line-height: 1.2;
+  margin-bottom: $spacing-md;
+}
+
+h1 {
+  font-size: 2.5rem;
+}
+
+h2 {
+  font-size: 2rem;
+}
+
+h3 {
+  font-size: 1.75rem;
+}
+
+h4 {
+  font-size: 1.5rem;
+}
+
+h5 {
+  font-size: 1.25rem;
+}
+
+h6 {
+  font-size: 1rem;
+}
+
+// Text Styles
+.text {
+  &-small {
+    font-size: 0.875rem;
+  }
+
+  &-large {
+    font-size: 1.125rem;
+  }
+
+  &-bold {
+    font-weight: $font-weight-bold;
+  }
+
+  &-semibold {
+    font-weight: $font-weight-semibold;
+  }
+
+  &-medium {
+    font-weight: $font-weight-medium;
+  }
+
+  &-regular {
+    font-weight: $font-weight-regular;
+  }
+
+  &-gray {
+    color: $text-gray;
+  }
+
+  &-dark {
+    color: $text-dark;
+  }
+}
+
+// Links
+a {
+  color: $primary-yellow;
+  transition: color $transition-fast;
+
+  &:hover {
+    color: $primary-yellow-hover;
+  }
+}

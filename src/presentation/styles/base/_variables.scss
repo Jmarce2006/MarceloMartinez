@@ -1,0 +1,44 @@
+// Color Variables
+$primary-yellow: #ffdd00;
+$primary-yellow-hover: #ffe94d;
+$secondary-gray: #e5e5e5;
+$secondary-gray-hover: #f5f5f5;
+$danger-red: #e4002b;
+$danger-red-hover: #c1002b;
+$text-dark: #121212;
+$text-gray: #595959;
+
+// CSS Custom Properties
+:root {
+  --primary-yellow: #{$primary-yellow};
+  --primary-yellow-hover: #{$primary-yellow-hover};
+  --secondary-gray: #{$secondary-gray};
+  --secondary-gray-hover: #{$secondary-gray-hover};
+  --danger-red: #{$danger-red};
+  --danger-red-hover: #{$danger-red-hover};
+  --text-dark: #{$text-dark};
+  --text-gray: #{$text-gray};
+}
+
+// Spacing
+$spacing-xs: 4px;
+$spacing-sm: 8px;
+$spacing-md: 16px;
+$spacing-lg: 24px;
+$spacing-xl: 32px;
+
+// Border Radius
+$border-radius-sm: 2px;
+$border-radius-md: 4px;
+$border-radius-lg: 8px;
+
+// Font Weights
+$font-weight-regular: 400;
+$font-weight-medium: 500;
+$font-weight-semibold: 600;
+$font-weight-bold: 700;
+
+// Transitions
+$transition-fast: 0.2s;
+$transition-normal: 0.3s;
+$transition-slow: 0.5s;

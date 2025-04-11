@@ -40,7 +40,9 @@ export class ProductListComponent implements OnInit {
   ) {}
 
   getDeleteConfirmationTitle(): string {
-    return `¿Estas seguro de eliminar el producto ${this.productToDelete?.name || ''}?`;
+    return `¿Estas seguro de eliminar el producto ${
+      this.productToDelete?.name || ''
+    }?`;
   }
 
   @HostListener('document:click', ['$event'])
@@ -106,6 +108,18 @@ export class ProductListComponent implements OnInit {
 
   toggleMenu(productId: string, event: Event): void {
     event.stopPropagation();
+    const button = event.target as HTMLElement;
+    const menuContainer = button.closest('.menu-container') as HTMLElement;
+    const dropdown = menuContainer?.querySelector(
+      '.menu-dropdown'
+    ) as HTMLElement;
+
+    if (dropdown) {
+      const buttonRect = button.getBoundingClientRect();
+      dropdown.style.top = `${buttonRect.bottom}px`;
+      dropdown.style.right = `${window.innerWidth - buttonRect.right}px`;
+    }
+
     this.activeMenuId = this.activeMenuId === productId ? null : productId;
   }
 
@@ -136,7 +150,7 @@ export class ProductListComponent implements OnInit {
         error: (error: BackendError) => {
           this.errorMessage = error.message;
           this.isLoading = false;
-        }
+        },
       });
     }
   }

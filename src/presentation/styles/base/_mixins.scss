@@ -1,0 +1,74 @@
+@import "variables";
+
+// Flexbox Mixins
+@mixin flex($direction: row, $justify: flex-start, $align: stretch) {
+  display: flex;
+  flex-direction: $direction;
+  justify-content: $justify;
+  align-items: $align;
+}
+
+@mixin flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin flex-between {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+// Grid Mixins
+@mixin grid($columns: 1, $gap: $spacing-md) {
+  display: grid;
+  grid-template-columns: repeat($columns, 1fr);
+  gap: $gap;
+}
+
+// Media Query Mixins
+@mixin respond-to($breakpoint) {
+  @if $breakpoint == "sm" {
+    @media (min-width: 576px) {
+      @content;
+    }
+  } @else if $breakpoint == "md" {
+    @media (min-width: 768px) {
+      @content;
+    }
+  } @else if $breakpoint == "lg" {
+    @media (min-width: 992px) {
+      @content;
+    }
+  } @else if $breakpoint == "xl" {
+    @media (min-width: 1200px) {
+      @content;
+    }
+  }
+}
+
+// Button Mixin
+@mixin button-variant($background, $color, $hover-background) {
+  background-color: $background;
+  color: $color;
+
+  &:hover:not(:disabled) {
+    background-color: $hover-background;
+  }
+}
+
+// Card Mixin
+@mixin card($padding: $spacing-md, $border-radius: $border-radius-md) {
+  background: #fff;
+  border-radius: $border-radius;
+  padding: $padding;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+// Transition Mixin
+@mixin transition($properties...) {
+  transition-property: $properties;
+  transition-duration: $transition-normal;
+  transition-timing-function: ease;
+}

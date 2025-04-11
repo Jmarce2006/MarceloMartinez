@@ -1,0 +1,57 @@
+// Reset and Base Styles
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: 1.5;
+  color: $text-dark;
+}
+
+// Form Elements Reset
+button,
+input,
+select,
+textarea {
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+}
+
+// Remove default button styles
+button {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+// Remove list styles
+ul,
+ol {
+  list-style: none;
+}
+
+// Remove default link styles
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+// Remove default table styles
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+// Remove default image styles
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
