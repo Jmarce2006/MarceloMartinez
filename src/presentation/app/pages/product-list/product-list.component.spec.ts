@@ -5,12 +5,14 @@ import { ProductPaginationService, PaginatedResult } from '../../../../domain/se
 import { of, throwError } from 'rxjs';
 import { Product } from '../../../../domain/models/product.model';
 import { BackendError } from '../../../../domain/errors/backend-error';
+import { Router } from '@angular/router';
 
 describe('ProductListComponent', () => {
   let component: ProductListComponent;
   let fixture: ComponentFixture<ProductListComponent>;
   let productService: jest.Mocked<ProductService>;
   let paginationService: jest.Mocked<ProductPaginationService>;
+  let router: jest.Mocked<Router>;
 
   const mockProducts: Product[] = [
     { 
@@ -47,17 +49,22 @@ describe('ProductListComponent', () => {
     const paginationServiceMock = {
       paginateAndFilter: jest.fn()
     };
+    const routerMock = {
+      navigate: jest.fn()
+    };
 
     await TestBed.configureTestingModule({
       imports: [ProductListComponent],
       providers: [
         { provide: ProductService, useValue: productServiceMock },
-        { provide: ProductPaginationService, useValue: paginationServiceMock }
+        { provide: ProductPaginationService, useValue: paginationServiceMock },
+        { provide: Router, useValue: routerMock }
       ]
     }).compileComponents();
 
     productService = TestBed.inject(ProductService) as jest.Mocked<ProductService>;
     paginationService = TestBed.inject(ProductPaginationService) as jest.Mocked<ProductPaginationService>;
+    router = TestBed.inject(Router) as jest.Mocked<Router>;
 
     fixture = TestBed.createComponent(ProductListComponent);
     component = fixture.componentInstance;
@@ -230,6 +237,227 @@ describe('ProductListComponent', () => {
     expect(component.currentPage).toBe(initialPage);
     expect(paginationService.paginateAndFilter).not.toHaveBeenCalled();
   });
+
+  it('should not change page when invalid page number is provided', () => {
+    // Arrange
+    const initialPage = component.currentPage;
+    component.paginatedData = {
+      items: mockProducts,
+      total: mockProducts.length,
+      currentPage: initialPage,
+      pageSize: component.pageSize,
+      totalPages: 2,
+      hasNextPage: true
+    };
+
+    // Act
+    component.onPageChange(-1);
+    
+    // Assert
+    expect(component.currentPage).toBe(initialPage);
+    
+    // Act
+    component.onPageChange(1000);
+    
+    // Assert
+    expect(component.currentPage).toBe(initialPage);
+  });
+
+  it('should handle menu toggling correctly', () => {
+    // Arrange
+    const productId = '1';
+    const event = new Event('click');
+    const button = document.createElement('button');
+    button.className = 'menu-button';
+    const menuContainer = document.createElement('div');
+    menuContainer.className = 'menu-container';
+    const dropdown = document.createElement('div');
+    dropdown.className = 'menu-dropdown';
+    menuContainer.appendChild(button);
+    menuContainer.appendChild(dropdown);
+    document.body.appendChild(menuContainer);
+    Object.defineProperty(event, 'target', { value: button });
+    Object.defineProperty(event, 'stopPropagation', { value: jest.fn() });
+
+    // Act - Toggle menu on
+    component.toggleMenu(productId, event);
+
+    // Assert
+    expect(component.activeMenuId).toBe(productId);
+    expect(event.stopPropagation).toHaveBeenCalled();
+
+    // Act - Toggle menu off
+    component.toggleMenu(productId, event);
+
+    // Assert
+    expect(component.activeMenuId).toBeNull();
+
+    // Cleanup
+    document.body.removeChild(menuContainer);
+  });
+
+  it('should close menu when clicking outside menu container', () => {
+    // Arrange
+    component.activeMenuId = 'test-id';
+    const event = new MouseEvent('click');
+    const target = document.createElement('div');
+    jest.spyOn(target, 'closest').mockReturnValue(null);
+    Object.defineProperty(event, 'target', { value: target });
+
+    // Act
+    component.onDocumentClick(event);
+
+    // Assert
+    expect(component.activeMenuId).toBeNull();
+  });
+
+  it('should not close menu when clicking inside menu container', () => {
+    // Arrange
+    component.activeMenuId = 'test-id';
+    const event = new MouseEvent('click');
+    const target = document.createElement('div');
+    const menuContainer = document.createElement('div');
+    menuContainer.className = 'menu-container';
+    jest.spyOn(target, 'closest').mockReturnValue(menuContainer);
+    Object.defineProperty(event, 'target', { value: target });
+
+    // Act
+    component.onDocumentClick(event);
+
+    // Assert
+    expect(component.activeMenuId).toBe('test-id');
+  });
+
+  it('should handle delete confirmation successfully', () => {
+    // Arrange
+    const product = { id: '1', name: 'Test Product' } as Product;
+    component.productToDelete = product;
+    productService.deleteProduct.mockReturnValue(of(undefined));
+    productService.getProducts.mockReturnValue(of(mockProducts));
+    paginationService.paginateAndFilter.mockReturnValue({
+      items: mockProducts,
+      total: mockProducts.length,
+      currentPage: 1,
+      pageSize: component.pageSize,
+      totalPages: 1,
+      hasNextPage: false
+    });
+
+    // Act
+    component.onConfirmDelete();
+
+    // Assert
+    expect(productService.deleteProduct).toHaveBeenCalledWith('1');
+    expect(component.showDeleteModal).toBeFalsy();
+    expect(component.productToDelete).toBeNull();
+    expect(productService.getProducts).toHaveBeenCalled();
+  });
+
+  it('should handle delete confirmation error', () => {
+    // Arrange
+    const product = { id: '1', name: 'Test Product' } as Product;
+    component.productToDelete = product;
+    const error = new BackendError('Delete failed');
+    productService.deleteProduct.mockReturnValue(throwError(() => error));
+
+    // Act
+    component.onConfirmDelete();
+
+    // Assert
+    expect(productService.deleteProduct).toHaveBeenCalledWith('1');
+    expect(component.errorMessage).toBe('Delete failed');
+    expect(component.showDeleteModal).toBeFalsy();
+    expect(component.productToDelete).toBe(product);
+  });
+
+  it('should handle image error', () => {
+    // Arrange
+    const event = new Event('error');
+    const imgElement = document.createElement('img');
+    const fallbackElement = document.createElement('div');
+    imgElement.insertAdjacentElement('afterend', fallbackElement);
+    Object.defineProperty(event, 'target', { value: imgElement });
+
+    // Act
+    component.handleImageError(event);
+
+    // Assert
+    expect(imgElement.style.display).toBe('none');
+  });
+
+  it('should navigate to edit page', () => {
+    // Arrange
+    const product = { id: '1', name: 'Test Product' } as Product;
+    const router = TestBed.inject(Router);
+    const navigateSpy = jest.spyOn(router, 'navigate');
+
+    // Act
+    component.onEdit(product);
+
+    // Assert
+    expect(navigateSpy).toHaveBeenCalledWith(['/products/edit', product.id]);
+  });
+
+  it('should navigate to add product page', () => {
+    // Arrange
+    const router = TestBed.inject(Router);
+    const navigateSpy = jest.spyOn(router, 'navigate');
+
+    // Act
+    component.onAddProduct();
+
+    // Assert
+    expect(navigateSpy).toHaveBeenCalledWith(['/products/create']);
+  });
+
+  it('should show delete modal when delete is requested', () => {
+    // Arrange
+    const product = { id: '1', name: 'Test Product' } as Product;
+
+    // Act
+    component.onDelete(product);
+
+    // Assert
+    expect(component.showDeleteModal).toBeTruthy();
+    expect(component.productToDelete).toBe(product);
+  });
+
+  it('should cancel delete operation', () => {
+    // Arrange
+    component.showDeleteModal = true;
+    component.productToDelete = { id: '1', name: 'Test Product' } as Product;
+
+    // Act
+    component.onCancelDelete();
+
+    // Assert
+    expect(component.showDeleteModal).toBeFalsy();
+    expect(component.productToDelete).toBeNull();
+  });
+
+  it('should get correct delete confirmation title', () => {
+    // Arrange
+    const product = { id: '1', name: 'Test Product' } as Product;
+    component.productToDelete = product;
+
+    // Act
+    const title = component.getDeleteConfirmationTitle();
+
+    // Assert
+    expect(title).toBe('¿Estas seguro de eliminar el producto Test Product?');
+  });
+
+  it('should get empty delete confirmation title when no product is selected', () => {
+    // Arrange
+    component.productToDelete = null;
+
+    // Act
+    const title = component.getDeleteConfirmationTitle();
+
+    // Assert
+    expect(title).toBe('¿Estas seguro de eliminar el producto ?');
+  });
+
   describe('Delete Product', () => {
     it('should delete product successfully', fakeAsync(() => {
       // Arrange
