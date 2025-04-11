@@ -9,7 +9,7 @@
         class="search-input"
       />
     </div>
-    <button class="add-button" (click)="onAddProduct()">Agregar</button>
+    <button class="add-button btn-primary" (click)="onAddProduct()">Agregar</button>
   </div>
 
   <div *ngIf="errorMessage" class="error-message">
@@ -35,12 +35,14 @@
               [src]="product.logo"
               [alt]="product.name"
               class="product-logo"
+              (error)="handleImageError($event)"
             />
+            <div class="logo-fallback"></div>
           </td>
           <td>{{ product.name }}</td>
           <td>{{ product.description }}</td>
-          <td>{{ product.date_release | date : "dd/MM/yyyy" }}</td>
-          <td>{{ product.date_revision | date : "dd/MM/yyyy" }}</td>
+          <td>{{ product.date_release | date:'yyyy-MM-dd':'UTC' }}</td>
+          <td>{{ product.date_revision | date:'yyyy-MM-dd':'UTC' }}</td>
           <td class="actions-cell">
             <div class="menu-container">
               <button
@@ -72,6 +74,7 @@
         <button
           [disabled]="currentPage === 1"
           (click)="onPageChange(currentPage - 1)"
+          class="btn-secondary"
         >
           Anterior    
         </button>
@@ -79,6 +82,7 @@
         <button
           [disabled]="!paginatedData?.hasNextPage"
           (click)="onPageChange(currentPage + 1)"
+          class="btn-secondary"
         >
           Siguiente
         </button>

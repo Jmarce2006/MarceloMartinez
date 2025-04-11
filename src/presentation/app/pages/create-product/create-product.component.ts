@@ -214,6 +214,10 @@ export class CreateProductComponent implements OnInit {
     }
 
     const requiredFields = ['name', 'description', 'logo', 'date_release'];
+    if (!this.isEditMode) {
+      requiredFields.push('id');
+    }
+    
     const allFieldsValid = requiredFields.every((fieldName) => {
       const control = this.productForm.get(fieldName);
       return control && control.valid;

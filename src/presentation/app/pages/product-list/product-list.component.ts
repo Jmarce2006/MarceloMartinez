@@ -145,4 +145,15 @@ export class ProductListComponent implements OnInit {
     this.showDeleteModal = false;
     this.productToDelete = null;
   }
+
+  handleImageError(event: Event): void {
+    const img = event.target as HTMLImageElement;
+    if (img && img.style) {
+      img.style.display = 'none';
+      const fallback = img.nextElementSibling as HTMLElement;
+      if (fallback) {
+        fallback.style.display = 'flex';
+      }
+    }
+  }
 }

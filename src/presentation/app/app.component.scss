@@ -6,6 +6,7 @@
   .logo-container {
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 0.5rem;
     max-width: 1200px;
     margin: 0 auto;
@@ -24,8 +25,14 @@
   }
 }
 
+:host {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
 .app-content {
-  min-height: calc(100vh - 80px);
+  flex: 1;
   padding: 2rem;
   background-color: #f8f9fa;
 }
@@ -37,4 +44,5 @@
   color: #666;
   font-size: 0.9rem;
   border-top: 1px solid #e0e0e0;
+  margin-top: auto;
 }

@@ -1,1 +1,87 @@
 /* You can add global styles to this file, and also import other style files */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: 1.5;
+}
+
+button, input, select {
+  font-family: inherit;
+}
+
+:root {
+  /* Banco Pichincha brand colors */
+  --primary-yellow: #FFDD00;
+  --primary-yellow-hover: #FFE94D;
+  --secondary-gray: #E5E5E5;
+  --secondary-gray-hover: #F5F5F5;
+  --danger-red: #E4002B;
+  --danger-red-hover: #C1002B;
+  --text-dark: #121212;
+  --text-gray: #595959;
+}
+
+.btn-primary {
+  background-color: var(--primary-yellow);
+  border: none;
+  color: var(--text-dark);
+  font-weight: 600;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  
+  &:hover:not(:disabled) {
+    background-color: var(--primary-yellow-hover);
+  }
+
+  &:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
+}
+
+.btn-secondary {
+  background-color: var(--secondary-gray);
+  border: none;
+  color: var(--text-gray);
+  font-weight: 600;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  
+  &:hover:not(:disabled) {
+    background-color: var(--secondary-gray-hover);
+  }
+
+  &:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
+}
+
+.btn-danger {
+  background-color: var(--danger-red);
+  border: none;
+  color: #fff;
+  font-weight: 600;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  
+  &:hover:not(:disabled) {
+    background-color: var(--danger-red-hover);
+  }
+
+  &:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
+}

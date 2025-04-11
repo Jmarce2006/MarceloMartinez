@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { ProductListComponent } from './product-list.component';
 import { ProductService } from '../../../../domain/services/product.service';
 import { ProductPaginationService, PaginatedResult } from '../../../../domain/services/product-pagination.service';
@@ -41,7 +41,8 @@ describe('ProductListComponent', () => {
 
   beforeEach(async () => {
     const productServiceMock = {
-      getProducts: jest.fn()
+      getProducts: jest.fn(),
+      deleteProduct: jest.fn(),
     };
     const paginationServiceMock = {
       paginateAndFilter: jest.fn()
@@ -228,5 +229,72 @@ describe('ProductListComponent', () => {
     // Assert
     expect(component.currentPage).toBe(initialPage);
     expect(paginationService.paginateAndFilter).not.toHaveBeenCalled();
+  });
+  describe('Delete Product', () => {
+    it('should delete product successfully', fakeAsync(() => {
+      // Arrange
+      component.allProducts = mockProducts;
+      const productToDelete = mockProducts[0];
+      const remainingProducts = mockProducts.slice(1);
+      
+      productService.deleteProduct.mockReturnValue(of(void 0));
+      productService.getProducts.mockReturnValue(of(remainingProducts));
+      
+      paginationService.paginateAndFilter.mockReturnValue({
+        items: remainingProducts,
+        total: remainingProducts.length,
+        currentPage: 1,
+        pageSize: component.pageSize,
+        totalPages: 1,
+        hasNextPage: false
+      });
+
+      // Act
+      component.onDelete(productToDelete);
+      component.onConfirmDelete();
+      tick();
+
+      // Assert
+      expect(productService.deleteProduct).toHaveBeenCalledWith(productToDelete.id);
+      expect(component.showDeleteModal).toBe(false);
+      expect(component.productToDelete).toBeNull();
+      expect(component.allProducts).toEqual(remainingProducts);
+    }));
+
+    it('should not delete product when user cancels confirmation', fakeAsync(() => {
+      // Arrange
+      component.allProducts = mockProducts;
+      const productToDelete = mockProducts[0];
+
+      // Act
+      component.onDelete(productToDelete);
+      component.onCancelDelete();
+      tick();
+
+      // Assert
+      expect(productService.deleteProduct).not.toHaveBeenCalled();
+      expect(component.showDeleteModal).toBe(false);
+      expect(component.productToDelete).toBeNull();
+      expect(component.allProducts).toEqual(mockProducts);
+    }));
+
+    it('should handle delete error', fakeAsync(() => {
+      // Arrange
+      component.allProducts = mockProducts;
+      const productToDelete = mockProducts[0];
+      const error = { message: 'Error deleting product' };
+      productService.deleteProduct.mockReturnValue(throwError(() => error));
+
+      // Act
+      component.onDelete(productToDelete);
+      component.onConfirmDelete();
+      tick();
+
+      // Assert
+      expect(productService.deleteProduct).toHaveBeenCalledWith(productToDelete.id);
+      expect(component.errorMessage).toBe('Error deleting product');
+      expect(component.isLoading).toBe(false);
+      expect(component.allProducts).toEqual(mockProducts);
+    }));
   });
 }); 

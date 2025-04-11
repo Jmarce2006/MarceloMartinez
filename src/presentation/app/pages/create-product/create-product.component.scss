@@ -2,11 +2,9 @@
   max-width: 1200px;
   margin: 0 auto;
   padding: 20px;
-  min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  padding-top: 40px;
 }
 
 .form-container {
@@ -20,8 +18,12 @@
   h1 {
     text-align: center;
     margin-bottom: 32px;
-    color: #1a237e;
+    color: var(--text-dark);
     font-size: 24px;
+    font-weight: 600;
+    padding-bottom: 16px;
+    border-bottom: 2px solid #E5E5E5;
+    position: relative;
   }
 }
 
