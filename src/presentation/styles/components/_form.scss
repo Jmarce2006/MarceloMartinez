@@ -112,3 +112,22 @@
     }
   }
 }
+
+// Product Form Mobile Responsive Styles
+@media (max-width: 768px) {
+  .product-form__container {
+    padding: 10px !important;
+  }
+
+  .product-form__form-container {
+    padding: 16px !important;
+  }
+
+  .product-form__row {
+    flex-direction: column !important;
+  }
+
+  .product-form__actions {
+    flex-direction: column !important;
+  }
+}
